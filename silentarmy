@@ -11,13 +11,16 @@ import struct
 import sys
 import time
 
+HOME = os.path.dirname(os.path.realpath(__file__))
+SOLVER = os.path.join(HOME, 'sa-solver')
+LOCAL_ASYNCIO = os.path.join(HOME, 'lib/asyncio')
+
 # Python < 3.4.4 compatibility
-PY_VERSION = int(sys.version_info.major*100 + sys.version_info.minor*10 + sys.version_info.micro)
-if PY_VERSION >= 344:
+PYTHON_VERSION = int(sys.version_info.major*100 + sys.version_info.minor*10 + sys.version_info.micro)
+if PYTHON_VERSION >= 344:
     import asyncio
 else:
-    LIBPATH = os.path.dirname(os.path.realpath(__file__)) + '/lib/asyncio'
-    sys.path.append(LIBPATH)
+    sys.path.append(LOCAL_ASYNCIO)
     import asyncio
 
 verbose_level = 0
@@ -138,7 +141,7 @@ class Silentarmy:
         self.loop = None
         # Solver-related attributes
         self.solver_procs = {}
-        self.solver_binary = os.path.join(sys.path[0], 'sa-solver')
+        self.solver_binary = SOLVER
         # Stratum-related attributes
         self.st_conn_attempt = 0
         self.st_had_job = False
